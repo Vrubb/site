@@ -3,6 +3,9 @@ let isDown = false;
 let startX, startY, scrollLeft, scrollTop;
 let isDragging = false;
 
+// Enable scrolling by making gallery act like a large space
+gallery.style.overflow = "hidden";
+
 // Start Dragging
 gallery.addEventListener("mousedown", (e) => {
     isDown = true;
@@ -30,13 +33,15 @@ gallery.addEventListener("mousemove", (e) => {
     gallery.scrollTop = scrollTop - walkY;
 });
 
-// Fix Click Event to Prevent Accidental Clicks
+// Click Event - Only Works if Not Dragging
 document.querySelectorAll(".letter").forEach(letter => {
     letter.addEventListener("click", (e) => {
         if (isDragging) return; // Ignore clicks if dragging happened
         alert(`You clicked: ${letter.textContent}`);
         window.location.href = `page-${letter.textContent.toLowerCase()}.html`; // Change this to actual pages
+    });
 });
+
 
 
 
