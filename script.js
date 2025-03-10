@@ -36,7 +36,6 @@ document.querySelectorAll(".letter").forEach(letter => {
         if (isDragging) return; // Ignore clicks if dragging happened
         alert(`You clicked: ${letter.textContent}`);
         window.location.href = `page-${letter.textContent.toLowerCase()}.html`; // Change this to actual pages
-    });
 });
 
 
