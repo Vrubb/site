@@ -30,20 +30,17 @@ document.querySelectorAll(".letter").forEach(letter => {
     letter.addEventListener("click", () => {
         alert(`You clicked: ${letter.textContent}`);
         // Replace with redirection or animation
-    });
 });
 
 window.addEventListener("scroll", () => {
     document.querySelectorAll(".letter").forEach((letter, index) => {
         let speed = (index % 2 === 0) ? 0.1 : -0.1;
         letter.style.transform = `translateY(${window.scrollY * speed}px)`;
-    });
 });
 
 document.querySelectorAll(".letter").forEach(letter => {
     letter.addEventListener("click", () => {
         letter.style.color = "#" + Math.floor(Math.random()*16777215).toString(16); // Random color
-    });
 });
 
 document.querySelectorAll(".letter").forEach(letter => {
