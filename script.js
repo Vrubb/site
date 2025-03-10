@@ -1,15 +1,36 @@
 const gallery = document.querySelector(".gallery");
+
+// Set up the grid
+const rows = 10; // Number of rows
+const cols = 10; // How many times A-Z repeats in each row
+const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+// Generate the A-Z grid properly this time
+for (let row = 0; row < rows; row++) {
+    for (let col = 0; col < cols; col++) {
+        for (let letter of letters) {
+            const span = document.createElement("span");
+            span.classList.add("letter");
+            span.textContent = letter; // Actually adding letters 💀
+
+            // Fix positioning (spaces out letters)
+            span.style.top = `${row * 10}vh`; 
+            span.style.left = `${col * 5}vw`;
+
+            gallery.appendChild(span);
+        }
+    }
+}
+
+// Infinite Scrolling Logic
 let isDown = false;
 let startX, startY, scrollLeft, scrollTop;
 let isDragging = false;
 
-// Enable scrolling by making gallery act like a large space
-gallery.style.overflow = "hidden";
-
 // Start Dragging
 gallery.addEventListener("mousedown", (e) => {
     isDown = true;
-    isDragging = false; // Reset dragging state
+    isDragging = false;
     gallery.style.cursor = "grabbing";
     startX = e.clientX;
     startY = e.clientY;
@@ -26,23 +47,33 @@ gallery.addEventListener("mouseup", () => {
 gallery.addEventListener("mousemove", (e) => {
     if (!isDown) return;
     e.preventDefault();
-    isDragging = true; // Mark as dragging
+    isDragging = true;
     const walkX = (e.clientX - startX) * 1.5;
     const walkY = (e.clientY - startY) * 1.5;
     gallery.scrollLeft = scrollLeft - walkX;
     gallery.scrollTop = scrollTop - walkY;
+
+    // Infinite Scroll Wrapping
+    if (gallery.scrollLeft <= 0) {
+        gallery.scrollLeft += gallery.scrollWidth / 2;
+    } else if (gallery.scrollLeft >= gallery.scrollWidth / 2) {
+        gallery.scrollLeft -= gallery.scrollWidth / 2;
+    }
+
+    if (gallery.scrollTop <= 0) {
+        gallery.scrollTop += gallery.scrollHeight / 2;
+    } else if (gallery.scrollTop >= gallery.scrollHeight / 2) {
+        gallery.scrollTop -= gallery.scrollHeight / 2;
+    }
 });
 
-// Click Event - Only Works if Not Dragging
-document.querySelectorAll(".letter").forEach(letter => {
-    letter.addEventListener("click", (e) => {
-        if (isDragging) return; // Ignore clicks if dragging happened
-        alert(`You clicked: ${letter.textContent}`);
-        window.location.href = `page-${letter.textContent.toLowerCase()}.html`; // Change this to actual pages
-    });
+// Click Event
+document.addEventListener("click", (e) => {
+    if (isDragging) return;
+    if (e.target.classList.contains("letter")) {
+        alert(`You clicked: ${e.target.textContent}`);
+    }
 });
-
-
 
 
 window.addEventListener("scroll", () => {
