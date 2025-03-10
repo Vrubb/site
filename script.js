@@ -92,3 +92,25 @@ document.querySelectorAll(".letter").forEach(letter => {
         window.location.href = `page-${letter.textContent.toLowerCase()}.html`;
     });
 });
+
+const gallery = document.querySelector(".gallery");
+const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+// DEBUG: See if the script runs
+console.log("Script is running!");
+
+// Generate A-Z letters
+for (let i = 0; i < 100; i++) {  // Force 100 letters to test
+    const span = document.createElement("span");
+    span.classList.add("letter");
+    span.textContent = letters[i % letters.length];  // Loop through A-Z
+    span.style.position = "absolute";
+    span.style.top = `${Math.random() * 100}vh`;
+    span.style.left = `${Math.random() * 100}vw`;
+    span.style.fontSize = "3rem";
+    span.style.color = "red";  // Make sure we can see them
+    gallery.appendChild(span);
+}
+
+// DEBUG: Log number of letters added
+console.log("Letters added:", document.querySelectorAll(".letter").length);
