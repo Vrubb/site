@@ -1,19 +1,17 @@
-let gallery = document.querySelector(".gallery");
+const gallery = document.querySelector(".gallery");
 let isDown = false;
 let startX, startY, scrollLeft, scrollTop;
+let isDragging = false;
 
+// Start Dragging
 gallery.addEventListener("mousedown", (e) => {
     isDown = true;
+    isDragging = false; // Reset dragging state
     gallery.style.cursor = "grabbing";
-    startX = e.pageX;
-    startY = e.pageY;
+    startX = e.clientX;
+    startY = e.clientY;
     scrollLeft = gallery.scrollLeft;
     scrollTop = gallery.scrollTop;
-});
-
-gallery.addEventListener("mouseleave", () => {
-    isDown = false;
-    gallery.style.cursor = "grab";
 });
 
 gallery.addEventListener("mouseup", () => {
@@ -21,21 +19,26 @@ gallery.addEventListener("mouseup", () => {
     gallery.style.cursor = "grab";
 });
 
+// Detect Dragging
 gallery.addEventListener("mousemove", (e) => {
     if (!isDown) return;
     e.preventDefault();
-    const walkX = (e.pageX - startX) * 1.5; // Increase speed if needed
-    const walkY = (e.pageY - startY) * 1.5;
+    isDragging = true; // Mark as dragging
+    const walkX = (e.clientX - startX) * 1.5;
+    const walkY = (e.clientY - startY) * 1.5;
     gallery.scrollLeft = scrollLeft - walkX;
     gallery.scrollTop = scrollTop - walkY;
 });
 
-// Click Event for Letters
+// Fix Click Event to Prevent Accidental Clicks
 document.querySelectorAll(".letter").forEach(letter => {
-    letter.addEventListener("click", () => {
+    letter.addEventListener("click", (e) => {
+        if (isDragging) return; // Ignore clicks if dragging happened
         alert(`You clicked: ${letter.textContent}`);
-        // Replace with redirection or animation
+        window.location.href = `page-${letter.textContent.toLowerCase()}.html`; // Change this to actual pages
+    });
 });
+
 
 window.addEventListener("scroll", () => {
     document.querySelectorAll(".letter").forEach((letter, index) => {
