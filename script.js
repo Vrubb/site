@@ -40,6 +40,7 @@ document.querySelectorAll(".letter").forEach(letter => {
 });
 
 
+
 window.addEventListener("scroll", () => {
     document.querySelectorAll(".letter").forEach((letter, index) => {
         let speed = (index % 2 === 0) ? 0.1 : -0.1;
