@@ -2,25 +2,30 @@ let gallery = document.querySelector(".gallery");
 let isDown = false;
 let startX, startY, scrollLeft, scrollTop;
 
-// Dragging Functionality
 gallery.addEventListener("mousedown", (e) => {
     isDown = true;
-    startX = e.pageX - gallery.offsetLeft;
-    startY = e.pageY - gallery.offsetTop;
+    gallery.style.cursor = "grabbing";
+    startX = e.pageX;
+    startY = e.pageY;
     scrollLeft = gallery.scrollLeft;
     scrollTop = gallery.scrollTop;
 });
 
-gallery.addEventListener("mouseleave", () => isDown = false);
-gallery.addEventListener("mouseup", () => isDown = false);
+gallery.addEventListener("mouseleave", () => {
+    isDown = false;
+    gallery.style.cursor = "grab";
+});
+
+gallery.addEventListener("mouseup", () => {
+    isDown = false;
+    gallery.style.cursor = "grab";
+});
 
 gallery.addEventListener("mousemove", (e) => {
     if (!isDown) return;
     e.preventDefault();
-    const x = e.pageX - gallery.offsetLeft;
-    const y = e.pageY - gallery.offsetTop;
-    const walkX = (x - startX) * 1.5;
-    const walkY = (y - startY) * 1.5;
+    const walkX = (e.pageX - startX) * 1.5; // Increase speed if needed
+    const walkY = (e.pageY - startY) * 1.5;
     gallery.scrollLeft = scrollLeft - walkX;
     gallery.scrollTop = scrollTop - walkY;
 });
